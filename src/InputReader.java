@@ -7,10 +7,10 @@ import com.google.gson.Gson;
 
 public class InputReader {
     String barcode;
-    String info;
     String finalBarcode;
     String device_name;    
     String filePath;
+    String info;
     File file;
     BarCode barcodeObject;
 
@@ -37,14 +37,13 @@ public class InputReader {
             barcodeObject = gson.fromJson(contents, BarCode.class);
         }
 
-        String type = barcodeObject.add(barcode);
+        barcodeObject.add(barcode);
         if (barcodeObject.completed) {
-            System.out.println(barcodeObject.toString());
+            this.finalBarcode = barcodeObject.toString();
             this.deleteFile();
         } else {
-            System.out.println(type);
+            this.info = barcodeObject.getRemaining();
             this.writeToFile(gson.toJson(barcodeObject));
-            
         }
     }
 
